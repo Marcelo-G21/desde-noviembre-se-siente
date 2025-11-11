@@ -18,6 +18,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow: hidden; 
       }
       .section1 {
         h1 {
@@ -43,6 +44,7 @@
           color: rgb(230, 223, 223);
           background: #090909;
           margin-top: 20px;
+          cursor: pointer;
           &:hover {
             background: #090909c3;
           }
@@ -63,6 +65,11 @@
         span {
           font-size: 3.2rem;
         }
+        img {
+          width: 200px;
+          cursor: pointer;
+          margin-top: 20px;
+        }
       }
       .desactivado {
         display: none;
@@ -70,13 +77,28 @@
       .oculto {
         visibility: hidden;
       }
+
+     
+      .emoji {
+        position: fixed;
+        top: -50px;
+        font-size: 2rem;
+        pointer-events: none;
+        animation: fall linear forwards;
+      }
+
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
     </style>
     <script type="module">
       const $ = (e) => document.getElementById(e);
       const section1 = $("s1");
       const btn = $("btn");
       const audio = $("myAudio");
-
       const section2 = $("s2");
       const pLetras = $("pLetras");
 
@@ -113,15 +135,19 @@
                 pLetras.innerHTML = "";
                 const gif = document.createElement("img");
                 const span = document.createElement("span");
-                const span2 = document.createElement("span");
                 const saltoDeLinea = document.createElement("br");
 
                 span.innerHTML = "FELIZ CASI <br />🎄 NAVIDAD 🎄";
-                gif.src = "https://raw.githubusercontent.com/Marcelo-G21/desde-noviembre-se-siente/main/santa.gif";
+                gif.src =
+                  "https://raw.githubusercontent.com/Marcelo-G21/desde-noviembre-se-siente/main/santa.gif";
+                gif.id = "gifNavidad";
                 pLetras.appendChild(span);
                 pLetras.appendChild(saltoDeLinea);
                 pLetras.appendChild(gif);
                 pLetras.classList.add("meme-final");
+
+               
+                gif.addEventListener("click", lanzarEmojis);
               }, 2500);
             } else {
               const span2 = document.createElement("span");
@@ -135,6 +161,26 @@
             }
           }, letraObj.tiempo);
         });
+      }
+
+     
+      function lanzarEmojis() {
+        const emojis = ["🎄", "🎅", "❄️", "🎁", "✨", "🦌", "☃️"];
+        for (let i = 0; i < 30; i++) {
+          const emoji = document.createElement("div");
+          emoji.classList.add("emoji");
+          emoji.textContent =
+            emojis[Math.floor(Math.random() * emojis.length)];
+          emoji.style.left = Math.random() * 100 + "vw";
+          emoji.style.animationDuration = 3 + Math.random() * 3 + "s";
+          emoji.style.fontSize = 1.5 + Math.random() * 2 + "rem";
+          document.body.appendChild(emoji);
+
+          
+          setTimeout(() => {
+            emoji.remove();
+          }, 6000);
+        }
       }
     </script>
   </head>
@@ -158,3 +204,4 @@
       <p class="letras" id="pLetras">Hola</p>
     </div>
   </body>
+</html>
